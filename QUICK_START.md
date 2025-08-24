@@ -54,7 +54,7 @@ curl http://localhost:3000/api/users
 - **MySQL connection failed**: Check if MySQL is running
 - **Email not sending**: Verify Gmail app password
 
-## 📚 Full Documentation
+## Full Documentation
 
 See `README.md` for complete setup and deployment instructions.
 

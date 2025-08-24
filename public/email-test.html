@@ -159,7 +159,6 @@
     </div>
 
     <script>
-        // Test email connection
         async function testEmailConnection() {
             const resultDiv = document.getElementById('connectionResult');
             resultDiv.innerHTML = '<div class="info">Testing connection...</div>';
@@ -175,16 +174,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    resultDiv.innerHTML = '<div class="success">✅ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="success"> ' + result.message + '</div>';
                 } else {
-                    resultDiv.innerHTML = '<div class="error">❌ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="error"> ' + result.message + '</div>';
                 }
             } catch (error) {
-                resultDiv.innerHTML = '<div class="error">❌ Error: ' + error.message + '</div>';
+                resultDiv.innerHTML = '<div class="error"> Error: ' + error.message + '</div>';
             }
         }
 
-        // Send test email
         async function sendTestEmail() {
             const testEmail = document.getElementById('testEmail').value;
             
@@ -210,17 +208,16 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    resultDiv.innerHTML = '<div class="success">✅ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="success">' + result.message + '</div>';
                     document.getElementById('testEmail').value = '';
                 } else {
-                    resultDiv.innerHTML = '<div class="error">❌ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="error"> ' + result.message + '</div>';
                 }
             } catch (error) {
-                resultDiv.innerHTML = '<div class="error">❌ Error: ' + error.message + '</div>';
+                resultDiv.innerHTML = '<div class="error"> Error: ' + error.message + '</div>';
             }
         }
 
-        // Send custom email
         async function sendCustomEmail() {
             const toEmail = document.getElementById('toEmail').value;
             const subject = document.getElementById('subject').value;
@@ -252,21 +249,20 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    resultDiv.innerHTML = '<div class="success">✅ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="success">' + result.message + '</div>';
                     // Clear form
                     document.getElementById('toEmail').value = '';
                     document.getElementById('subject').value = '';
                     document.getElementById('userName').value = '';
                     document.getElementById('message').value = '';
                 } else {
-                    resultDiv.innerHTML = '<div class="error">❌ ' + result.message + '</div>';
+                    resultDiv.innerHTML = '<div class="error"> ' + result.message + '</div>';
                 }
             } catch (error) {
-                resultDiv.innerHTML = '<div class="error">❌ Error: ' + error.message + '</div>';
+                resultDiv.innerHTML = '<div class="error"> Error: ' + error.message + '</div>';
             }
         }
 
-        // Load current email configuration
         async function loadEmailConfig() {
             try {
                 const response = await fetch('/api/users/test-email', {
@@ -288,7 +284,6 @@
             }
         }
 
-        // Load configuration on page load
         window.onload = function() {
             loadEmailConfig();
         };

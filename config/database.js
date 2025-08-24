@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
 
-// Create connection pool
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -11,7 +10,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Get promise wrapper
 const promisePool = pool.promise();
 
 module.exports = promisePool;

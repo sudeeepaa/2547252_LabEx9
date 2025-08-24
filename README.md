@@ -2,7 +2,7 @@
 
 A full-stack web application for managing events and user registrations with a beautiful Pinterest-inspired aesthetic.
 
-## 🚀 Features
+## Features
 
 - **User Registration & Management**: Complete CRUD operations for users
 - **Profile Picture Upload**: Handle profile pictures with Multer
@@ -12,7 +12,7 @@ A full-stack web application for managing events and user registrations with a b
 - **Real-time Updates**: Dynamic user interface with JavaScript
 - **Background Images**: Dynamic backgrounds from Unsplash API
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript
 - **Backend**: Node.js, Express.js
@@ -22,13 +22,13 @@ A full-stack web application for managing events and user registrations with a b
 - **Image API**: Unsplash
 - **Development**: Nodemon
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js (v14 or higher)
 - MySQL (v8.0 or higher)
 - Git
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -86,7 +86,7 @@ GMAIL_USER=your-email@gmail.com
 GMAIL_PASS=your-app-password
 ```
 
-## 🎯 Running the Application
+## Running the Application
 
 ### Development Mode (with Nodemon)
 ```bash
@@ -102,7 +102,7 @@ The application will be available at:
 - **Frontend**: http://localhost:3000
 - **API**: http://localhost:3000/api
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Users
 - `GET /api/users` - Get all users
@@ -150,7 +150,7 @@ The application will be available at:
 - **URL**: `http://localhost:3000/api/users/1`
 - **Method**: DELETE
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 2547252_LabEx9/
@@ -176,7 +176,7 @@ The application will be available at:
 └── README.md              # This file
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Changing Colors
 Edit the Tailwind config in `public/index.html`:
@@ -202,7 +202,7 @@ const response = await fetch(`${UNSPLASH_API_URL}/photos/random?query=event&orie
 });
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Heroku
 1. Install Heroku CLI
@@ -258,7 +258,7 @@ vercel
 ### Error Logs
 Check the console for detailed error messages. The application logs all errors with stack traces.
 
-## 📱 Features in Detail
+## Features in Detail
 
 ### User Management
 - **Create**: Add new users with profile pictures
@@ -284,7 +284,7 @@ Check the console for detailed error messages. The application logs all errors w
 - Active user count
 - Real-time updates
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -292,15 +292,15 @@ Check the console for detailed error messages. The application logs all errors w
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
-## 👨‍💻 Author
+##  Author
 
-Your Name - Student ID: 2547252
+Sudeepa - Student ID: 2547252
 
-## 📞 Support
+## Support
 
 For support and questions:
 - Create an issue in the repository
@@ -308,4 +308,4 @@ For support and questions:
 
 ---
 
-**Happy Coding! 🎉**
+**Happy Coding!**

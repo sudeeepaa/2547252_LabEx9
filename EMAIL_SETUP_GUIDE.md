@@ -1,16 +1,16 @@
-# 📧 EventEase Email Setup Guide
+#  EventEase Email Setup Guide
 
-## 🎯 **What's Already Working**
+## **What's Already Working**
 
 Your EventEase project already has a complete email system with:
-- ✅ **Nodemailer installed** and configured
-- ✅ **Gmail integration** set up
-- ✅ **Email templates** for all user actions
-- ✅ **Automatic emails** on user registration, updates, and deletion
-- ✅ **Custom email sending** capability
-- ✅ **Email testing tools** included
+- **Nodemailer installed** and configured
+- **Gmail integration** set up
+- **Email templates** for all user actions
+- **Automatic emails** on user registration, updates, and deletion
+- **Custom email sending** capability
+- **Email testing tools** included
 
-## 🚀 **Quick Start - Your Email System is Ready!**
+## **Quick Start - Your Email System is Ready!**
 
 ### 1. **Current Configuration**
 Your email is already configured with:
@@ -32,7 +32,7 @@ Your email is already configured with:
 3. **Test email connection** - Click "Test Connection"
 4. **Send a test email** - Fill out the form and send
 
-## 📧 **Email Templates Available**
+## **Email Templates Available**
 
 ### **Automatic Emails (Already Working)**
 1. **Welcome Email** - Sent when users register
@@ -44,7 +44,7 @@ Your email is already configured with:
 - Custom subjects and content
 - Professional HTML formatting
 
-## 🔧 **How to Use the Email System**
+## **How to Use the Email System**
 
 ### **1. Automatic Emails**
 These work automatically when you:
@@ -69,7 +69,7 @@ POST /api/users/send-email
 POST /api/users/test-email
 ```
 
-## 🎨 **Email Features**
+## **Email Features**
 
 ### **Beautiful HTML Templates**
 - Professional design with EventEase branding
@@ -82,7 +82,7 @@ POST /api/users/test-email
 - Error handling without breaking user operations
 - Detailed logging for debugging
 
-## 🛠️ **Customization Options**
+## **Customization Options**
 
 ### **Add New Email Templates**
 Edit `config/email.js` to add new templates:
@@ -129,12 +129,12 @@ const transporter = nodemailer.createTransport({
 });
 ```
 
-## 🔒 **Security Best Practices**
+## **Security Best Practices**
 
 ### **Current Setup**
-- ✅ Using Gmail App Passwords (more secure than regular passwords)
-- ✅ Environment variable support ready
-- ✅ No hardcoded credentials in production code
+-  Using Gmail App Passwords (more secure than regular passwords)
+- Environment variable support ready
+- No hardcoded credentials in production code
 
 ### **Recommended Improvements**
 1. **Create `.env` file** (optional but recommended):
@@ -174,7 +174,7 @@ curl -X POST http://localhost:3000/api/users/send-email \
 - Update user profile → Check for update email
 - Delete user → Check for goodbye email
 
-## 🚨 **Troubleshooting**
+## **Troubleshooting**
 
 ### **Common Issues**
 
@@ -199,29 +199,29 @@ curl -X POST http://localhost:3000/api/users/send-email \
 3. Verify email credentials
 4. Test with a simple email first
 
-## 📊 **Monitoring & Logging**
+## **Monitoring & Logging**
 
 ### **Console Output**
 Your server logs all email activities:
-- ✅ Email sent successfully
-- ⚠️ Email failed to send
-- ❌ Email errors
+- Email sent successfully
+- Email failed to send
+- Email errors
 
 ### **Email Tracking**
 - Message IDs for each sent email
 - Success/failure status
 - Detailed error messages
 
-## 🎉 **You're All Set!**
+## **You're All Set!**
 
 Your EventEase email system is:
-- ✅ **Fully functional** and ready to use
-- ✅ **Professionally designed** with beautiful templates
-- ✅ **Automatically integrated** with user operations
-- ✅ **Easy to test** with the included test page
-- ✅ **Highly customizable** for future needs
+- **Fully functional** and ready to use
+- **Professionally designed** with beautiful templates
+- **Automatically integrated** with user operations
+- **Easy to test** with the included test page
+- **Highly customizable** for future needs
 
-## 🚀 **Next Steps**
+## **Next Steps**
 
 1. **Test the system** using the test page
 2. **Create some users** to see welcome emails

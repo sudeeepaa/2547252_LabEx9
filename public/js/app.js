@@ -1,13 +1,10 @@
-// Global variables
 let users = [];
 let currentUserId = null;
 let isEditMode = false;
 
-// Unsplash API configuration
 const UNSPLASH_ACCESS_TOKEN = '4eDpR9sbV7ILSpeNPvZw8BUqqnvnymf4x_OltPaoB6w';
 const UNSPLASH_API_URL = 'https://api.unsplash.com';
 
-// DOM elements
 const userModal = document.getElementById('userModal');
 const deleteModal = document.getElementById('deleteModal');
 const userForm = document.getElementById('userForm');
@@ -20,28 +17,24 @@ const modalTitle = document.getElementById('modalTitle');
 const submitText = document.getElementById('submitText');
 const submitLoading = document.getElementById('submitLoading');
 
-// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
     loadUsers();
     setupEventListeners();
     loadRandomBackgroundImage();
 });
 
-// Setup event listeners
 function setupEventListeners() {
     addUserBtn.addEventListener('click', openAddUserModal);
     closeModal.addEventListener('click', closeUserModal);
     cancelBtn.addEventListener('click', closeUserModal);
     userForm.addEventListener('submit', handleFormSubmit);
     
-    // Close modal on outside click
     userModal.addEventListener('click', function(e) {
         if (e.target === userModal) {
             closeUserModal();
         }
     });
     
-    // Close delete modal on outside click
     deleteModal.addEventListener('click', function(e) {
         if (e.target === deleteModal) {
             closeDeleteModal();
@@ -49,7 +42,6 @@ function setupEventListeners() {
     });
 }
 
-// Load random background image from Unsplash
 async function loadRandomBackgroundImage() {
     try {
         const response = await fetch(`${UNSPLASH_API_URL}/photos/random?query=event&orientation=landscape`, {
@@ -70,7 +62,6 @@ async function loadRandomBackgroundImage() {
     }
 }
 
-// Load all users
 async function loadUsers() {
     try {
         const response = await fetch('/api/users');
@@ -89,7 +80,6 @@ async function loadUsers() {
     }
 }
 
-// Render users in grid
 function renderUsers() {
     if (users.length === 0) {
         usersGrid.innerHTML = `
@@ -139,7 +129,6 @@ function renderUsers() {
     `).join('');
 }
 
-// Update statistics
 function updateStats() {
     document.getElementById('totalUsers').textContent = users.length;
     
@@ -154,7 +143,6 @@ function updateStats() {
     document.getElementById('activeUsers').textContent = users.length; // All users are considered active for now
 }
 
-// Open add user modal
 function openAddUserModal() {
     isEditMode = false;
     currentUserId = null;
@@ -167,7 +155,6 @@ function openAddUserModal() {
     userModal.classList.remove('hidden');
 }
 
-// Open edit user modal
 function editUser(userId) {
     const user = users.find(u => u.id === userId);
     if (!user) return;
@@ -177,13 +164,11 @@ function editUser(userId) {
     modalTitle.textContent = 'Edit User';
     submitText.textContent = 'Update User';
     
-    // Fill form with user data
     document.getElementById('userId').value = user.id;
     document.getElementById('userName').value = user.name;
     document.getElementById('userEmail').value = user.email;
     document.getElementById('userPhone').value = user.phone;
     
-    // Show current profile picture if exists
     if (user.profile_picture) {
         document.getElementById('previewImg').src = `/uploads/${user.profile_picture}`;
         document.getElementById('fileUploadArea').classList.add('hidden');
@@ -196,7 +181,6 @@ function editUser(userId) {
     userModal.classList.remove('hidden');
 }
 
-// Close user modal
 function closeUserModal() {
     userModal.classList.add('hidden');
     userForm.reset();
@@ -204,7 +188,6 @@ function closeUserModal() {
     document.getElementById('imagePreview').classList.add('hidden');
 }
 
-// Handle form submission
 async function handleFormSubmit(e) {
     e.preventDefault();
     
@@ -218,7 +201,6 @@ async function handleFormSubmit(e) {
         formData.append('profile_picture', profilePicFile);
     }
     
-    // Show loading state
     submitLoading.classList.remove('hidden');
     submitText.classList.add('hidden');
     
@@ -249,12 +231,10 @@ async function handleFormSubmit(e) {
     }
 }
 
-// Delete user
 function deleteUser(userId) {
     currentUserId = userId;
     deleteModal.classList.remove('hidden');
     
-    // Setup delete confirmation
     document.getElementById('confirmDelete').onclick = async () => {
         try {
             const response = await fetch(`/api/users/${userId}`, {
@@ -277,13 +257,11 @@ function deleteUser(userId) {
     };
 }
 
-// Close delete modal
 function closeDeleteModal() {
     deleteModal.classList.add('hidden');
     currentUserId = null;
 }
 
-// Image preview functionality
 function previewImage(input) {
     const file = input.files[0];
     if (file) {
@@ -297,21 +275,18 @@ function previewImage(input) {
     }
 }
 
-// Remove image preview
 function removeImage() {
     document.getElementById('userProfilePic').value = '';
     document.getElementById('fileUploadArea').classList.remove('hidden');
     document.getElementById('imagePreview').classList.add('hidden');
 }
 
-// Show toast notification
 function showToast(title, message, type = 'info') {
     const toast = document.getElementById('toast');
     const toastIcon = document.getElementById('toastIcon');
     const toastTitle = document.getElementById('toastTitle');
     const toastMessage = document.getElementById('toastMessage');
     
-    // Set icon and colors based on type
     let iconClass = '';
     let bgColor = '';
     
@@ -339,16 +314,13 @@ function showToast(title, message, type = 'info') {
     toastTitle.textContent = title;
     toastMessage.textContent = message;
     
-    // Show toast
     toast.classList.remove('translate-x-full');
     
-    // Hide toast after 5 seconds
     setTimeout(() => {
         toast.classList.add('translate-x-full');
     }, 5000);
 }
 
-// Drag and drop functionality for file upload
 document.addEventListener('DOMContentLoaded', function() {
     const uploadArea = document.getElementById('fileUploadArea');
     const fileInput = document.getElementById('userProfilePic');
@@ -390,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Click to upload
     uploadArea.addEventListener('click', () => {
         fileInput.click();
     });

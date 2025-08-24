@@ -4,22 +4,16 @@ const userController = require('../controllers/userController');
 const upload = require('../middleware/upload');
 const { sendEmail, testEmailConnection } = require('../config/email');
 
-// GET all users
 router.get('/', userController.getAllUsers);
 
-// GET user by ID
 router.get('/:id', userController.getUserById);
 
-// POST create new user (with profile picture upload)
 router.post('/', upload.single('profile_picture'), userController.createUser);
 
-// PUT update user (with optional profile picture upload)
 router.put('/:id', upload.single('profile_picture'), userController.updateUser);
 
-// DELETE user
 router.delete('/:id', userController.deleteUser);
 
-// POST test email connection
 router.post('/test-email', async (req, res) => {
   try {
     const isConnected = await testEmailConnection();
@@ -34,7 +28,6 @@ router.post('/test-email', async (req, res) => {
   }
 });
 
-// POST send test email
 router.post('/send-test-email', async (req, res) => {
   try {
     const { to } = req.body;
@@ -67,7 +60,6 @@ router.post('/send-test-email', async (req, res) => {
   }
 });
 
-// POST send custom email
 router.post('/send-email', async (req, res) => {
   try {
     const { to, subject, message, userName } = req.body;

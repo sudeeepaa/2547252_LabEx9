@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// Create transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -10,7 +9,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Email templates
 const emailTemplates = {
   testEmail: () => ({
     subject: '🧪 EventEase Email Test - Working!',
@@ -169,7 +167,6 @@ const emailTemplates = {
   })
 };
 
-// Send email function
 const sendEmail = async (to, templateName, data) => {
   try {
     const template = emailTemplates[templateName];
@@ -177,7 +174,6 @@ const sendEmail = async (to, templateName, data) => {
       throw new Error(`Email template '${templateName}' not found`);
     }
 
-    // Pass arguments correctly to template function
     let emailContent;
     if (Array.isArray(data)) {
       emailContent = template(...data);
@@ -203,22 +199,21 @@ const sendEmail = async (to, templateName, data) => {
     });
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully:', info.messageId);
+    console.log('Email sent successfully:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error('Error sending email:', error);
     return { success: false, error: error.message };
   }
 };
 
-// Test email connection
 const testEmailConnection = async () => {
   try {
     await transporter.verify();
-    console.log('✅ Email server connection verified successfully!');
+    console.log('Email server connection verified successfully!');
     return true;
   } catch (error) {
-    console.error('❌ Email server connection failed:', error);
+    console.error('Email server connection failed:', error);
     return false;
   }
 };
