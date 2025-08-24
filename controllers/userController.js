@@ -3,8 +3,13 @@ const { sendEmail } = require('../config/email');
 
 const getAllUsers = async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM users ORDER BY created_at DESC');
-    res.json({ success: true, data: rows });
+    db.query('SELECT * FROM users', (err, results) => {
+      if (err) {
+        console.error('Error fetching users:', err);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      } 
+      res.json({ success: true, data: results });
+    });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });
