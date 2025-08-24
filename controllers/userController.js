@@ -3,13 +3,8 @@ const { sendEmail } = require('../config/email');
 
 const getAllUsers = async (req, res) => {
   try {
-    db.query('SELECT * FROM users', (err, results) => {
-      if (err) {
-        console.error('Error fetching users:', err);
-        return res.status(500).json({ success: false, message: 'Internal server error' });
-      } 
-      res.json({ success: true, data: results });
-    });
+    const results = await db.queryAsync('SELECT * FROM users');
+    res.json({ success: true, data: results });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });
@@ -19,12 +14,10 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
-    
+    const rows = await db.queryAsync('SELECT * FROM users WHERE id = ?', [id]);
     if (rows.length === 0) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-    
     res.json({ success: true, data: rows[0] });
   } catch (error) {
     console.error('Error fetching user:', error);
@@ -38,21 +31,15 @@ const createUser = async (req, res) => {
     const profilePicture = req.file ? req.file.filename : null;
 
     if (!name || !email || !phone) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Name, email, and phone are required' 
-      });
+      return res.status(400).json({ success: false, message: 'Name, email, and phone are required' });
     }
 
-    const [existingUsers] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
+    const existingUsers = await db.queryAsync('SELECT id FROM users WHERE email = ?', [email]);
     if (existingUsers.length > 0) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Email already registered' 
-      });
+      return res.status(400).json({ success: false, message: 'Email already registered' });
     }
 
-    const [result] = await db.query(
+    const result = await db.queryAsync(
       'INSERT INTO users (name, email, phone, profile_picture) VALUES (?, ?, ?, ?)',
       [name, email, phone, profilePicture]
     );
@@ -77,12 +64,7 @@ const createUser = async (req, res) => {
       console.error('Failed to send welcome email:', emailError);
     }
 
-    res.status(201).json({ 
-      success: true, 
-      message: 'User registered successfully',
-      data: newUser
-    });
-
+    res.status(201).json({ success: true, message: 'User registered successfully', data: newUser });
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });
@@ -95,13 +77,13 @@ const updateUser = async (req, res) => {
     const { name, email, phone } = req.body;
     const profilePicture = req.file ? req.file.filename : null;
 
-    const [existingUser] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+    const existingUser = await db.queryAsync('SELECT * FROM users WHERE id = ?', [id]);
     if (existingUser.length === 0) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
     if (email && email !== existingUser[0].email) {
-      const [emailCheck] = await db.query('SELECT id FROM users WHERE email = ? AND id != ?', [email, id]);
+      const emailCheck = await db.queryAsync('SELECT id FROM users WHERE email = ? AND id != ?', [email, id]);
       if (emailCheck.length > 0) {
         return res.status(400).json({ success: false, message: 'Email already in use' });
       }
@@ -135,14 +117,12 @@ const updateUser = async (req, res) => {
     updateQuery += updateFields.join(', ') + ', updated_at = CURRENT_TIMESTAMP WHERE id = ?';
     updateValues.push(id);
 
-    await db.query(updateQuery, updateValues);
+    await db.queryAsync(updateQuery, updateValues);
 
-    const [updatedUser] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+    const updatedUser = await db.queryAsync('SELECT * FROM users WHERE id = ?', [id]);
 
     try {
-      const emailResult = await sendEmail(updatedUser[0].email, 'userUpdate', { 
-        userName: updatedUser[0].name 
-      });
+      const emailResult = await sendEmail(updatedUser[0].email, 'userUpdate', { userName: updatedUser[0].name });
       if (emailResult.success) {
         console.log('Update confirmation email sent successfully to:', updatedUser[0].email);
       } else {
@@ -152,12 +132,7 @@ const updateUser = async (req, res) => {
       console.error('Failed to send update confirmation email:', emailError);
     }
 
-    res.json({ 
-      success: true, 
-      message: 'User updated successfully',
-      data: updatedUser[0]
-    });
-
+    res.json({ success: true, message: 'User updated successfully', data: updatedUser[0] });
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });
@@ -167,16 +142,13 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const [existingUser] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+    const existingUser = await db.queryAsync('SELECT * FROM users WHERE id = ?', [id]);
     if (existingUser.length === 0) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
     try {
-      const emailResult = await sendEmail(existingUser[0].email, 'userDeleted', { 
-        userName: existingUser[0].name 
-      });
+      const emailResult = await sendEmail(existingUser[0].email, 'userDeleted', { userName: existingUser[0].name });
       if (emailResult.success) {
         console.log('Goodbye email sent successfully to:', existingUser[0].email);
       } else {
@@ -186,10 +158,8 @@ const deleteUser = async (req, res) => {
       console.error('Failed to send goodbye email:', emailError);
     }
 
-    await db.query('DELETE FROM users WHERE id = ?', [id]);
-
+    await db.queryAsync('DELETE FROM users WHERE id = ?', [id]);
     res.json({ success: true, message: 'User deleted successfully' });
-
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });

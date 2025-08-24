@@ -7,29 +7,23 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
 app.use('/api/users', userRoutes);
 
-// Serve the main HTML file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Serve the email test page
 app.get('/email-test', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'email-test.html'));
 });
 
-// Test email route
 app.get('/test-email', async (req, res) => {
   try {
     const { sendEmail } = require('./config/email');
@@ -48,7 +42,6 @@ app.get('/test-email', async (req, res) => {
   }
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   
@@ -73,7 +66,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
@@ -81,7 +73,6 @@ app.use((req, res) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 EventEase server running on port ${PORT}`);
   console.log(`📱 Frontend: http://localhost:${PORT}`);
