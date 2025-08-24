@@ -23,6 +23,30 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Serve the email test page
+app.get('/email-test', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'email-test.html'));
+});
+
+// Test email route
+app.get('/test-email', async (req, res) => {
+  try {
+    const { sendEmail } = require('./config/email');
+    const result = await sendEmail('test@example.com', 'testEmail', {});
+    res.json({ 
+      success: true, 
+      message: 'Email system test completed',
+      result: result
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: 'Email system test failed',
+      error: error.message
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

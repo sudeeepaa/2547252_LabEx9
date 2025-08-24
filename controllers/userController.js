@@ -69,9 +69,14 @@ const createUser = async (req, res) => {
 
     // Send welcome email
     try {
-      await sendEmail(email, 'registrationSuccess', { userName: name });
+      const emailResult = await sendEmail(email, 'registrationSuccess', { userName: name });
+      if (emailResult.success) {
+        console.log('✅ Welcome email sent successfully to:', email);
+      } else {
+        console.log('⚠️ Welcome email failed to send:', emailResult.error);
+      }
     } catch (emailError) {
-      console.error('Failed to send email:', emailError);
+      console.error('❌ Failed to send welcome email:', emailError);
       // Don't fail the registration if email fails
     }
 
@@ -142,6 +147,21 @@ const updateUser = async (req, res) => {
     // Get updated user
     const [updatedUser] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
 
+    // Send update confirmation email
+    try {
+      const emailResult = await sendEmail(updatedUser[0].email, 'userUpdate', { 
+        userName: updatedUser[0].name 
+      });
+      if (emailResult.success) {
+        console.log('✅ Update confirmation email sent successfully to:', updatedUser[0].email);
+      } else {
+        console.log('⚠️ Update confirmation email failed to send:', emailResult.error);
+      }
+    } catch (emailError) {
+      console.error('❌ Failed to send update confirmation email:', emailError);
+      // Don't fail the update if email fails
+    }
+
     res.json({ 
       success: true, 
       message: 'User updated successfully',
@@ -163,6 +183,21 @@ const deleteUser = async (req, res) => {
     const [existingUser] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
     if (existingUser.length === 0) {
       return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Send goodbye email before deletion
+    try {
+      const emailResult = await sendEmail(existingUser[0].email, 'userDeleted', { 
+        userName: existingUser[0].name 
+      });
+      if (emailResult.success) {
+        console.log('✅ Goodbye email sent successfully to:', existingUser[0].email);
+      } else {
+        console.log('⚠️ Goodbye email failed to send:', emailResult.error);
+      }
+    } catch (emailError) {
+      console.error('❌ Failed to send goodbye email:', emailError);
+      // Don't fail the deletion if email fails
     }
 
     // Delete user
